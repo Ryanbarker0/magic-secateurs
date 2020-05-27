@@ -43,7 +43,7 @@ class MagicSecateursOverlay extends OverlayPanel
             if (i < items.length) {
                 final Item item = items[i];
                 if (item.getQuantity() > 0) {
-                    if (item.getId() == 7409) {
+                    if (item.getId() == ItemID.MAGIC_SECATEURS) {
                         final String text = "Equip Secateurs!";
                         final int textWidth = graphics.getFontMetrics().stringWidth(text);
                         final int textHeight = graphics.getFontMetrics().getAscent() - graphics.getFontMetrics().getDescent();

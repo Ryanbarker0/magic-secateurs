@@ -8,8 +8,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 @PluginDescriptor(
 		name = "Magic Secateurs",
 		description = "Highlight when magic secateurs aren't equipped on a farming run",
-		tags = {"overlay", "skilling"},
-		enabledByDefault = true
+		tags = {"overlay", "skilling"}
 )
 
 public class MagicSecateursPlugin extends Plugin

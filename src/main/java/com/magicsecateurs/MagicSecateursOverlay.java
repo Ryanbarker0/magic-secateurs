@@ -52,12 +52,12 @@ class MagicSecateursOverlay extends OverlayPanel
                         panelComponent.getChildren().clear();
                         panelComponent.getChildren().add(TitleComponent.builder().text(text).color(Color.RED).build());
                         panelComponent.setPreferredLocation(jPoint);
-                        panelComponent.render(graphics);
+                        return panelComponent.render(graphics);
                     }
                 }
             }
         }
 
-        return panelComponent.render(graphics);
+        return null;
     }
 }

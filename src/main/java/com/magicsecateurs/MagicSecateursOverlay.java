@@ -14,16 +14,19 @@ import net.runelite.client.ui.overlay.components.TitleComponent;
 
 
 class MagicSecateursOverlay extends OverlayPanel {
-    private static final int INVENTORY_SIZE = 28;
+
+    private final Client client;
+    private final MagicSecateursConfig config;
+    private final MagicSecateursPlugin plugin;
+
 
     @Inject
-    private Client client;
-
-    private MagicSecateursConfig config;
-
-    @Inject
-    private MagicSecateursOverlay(Client client, MagicSecateursConfig config) {
+    private MagicSecateursOverlay(Client client, MagicSecateursConfig config, MagicSecateursPlugin plugin) {
+        super(plugin);
+        this.plugin = plugin;
+        this.client = client;
         this.config = config;
+
         setLayer(OverlayLayer.ABOVE_SCENE);
         setPosition(OverlayPosition.DYNAMIC);
         setPriority(OverlayPriority.MED);
@@ -32,32 +35,26 @@ class MagicSecateursOverlay extends OverlayPanel {
 
     @Override
     public Dimension render(Graphics2D graphics) {
-        final ItemContainer itemContainer = client.getItemContainer(InventoryID.INVENTORY);
+        final ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+        final ItemContainer equipment = client.getItemContainer(InventoryID.EQUIPMENT);
 
-        if (itemContainer == null) {
-            return null;
-        }
-
-        final Item[] items = itemContainer.getItems();
 
         if (config.showMagicSecateursWarning()) {
-            for (int i = 0; i < INVENTORY_SIZE; i++) {
-                if (i < items.length) {
-                    final Item item = items[i];
-                    if (item.getQuantity() > 0) {
-                        if (item.getId() == ItemID.MAGIC_SECATEURS) {
-                            final String text = "Equip Secateurs!";
-                            final int textWidth = graphics.getFontMetrics().stringWidth(text);
-                            final int textHeight = graphics.getFontMetrics().getAscent() - graphics.getFontMetrics().getDescent();
-                            final int width = (int) client.getRealDimensions().getWidth();
-                            java.awt.Point jPoint = new java.awt.Point((width / 2) - textWidth, textHeight + 75);
-                            panelComponent.getChildren().clear();
-                            panelComponent.getChildren().add(TitleComponent.builder().text(text).color(Color.RED).build());
-                            panelComponent.setPreferredLocation(jPoint);
-                            return panelComponent.render(graphics);
-                        }
-                    }
-                }
+            if (equipment != null && equipment.contains(ItemID.MAGIC_SECATEURS)) {
+                return null;
+            }
+
+            if (inventory != null && inventory.contains(ItemID.MAGIC_SECATEURS)) {
+
+                final String text = "Equip Secateurs!";
+                final int textWidth = graphics.getFontMetrics().stringWidth(text);
+                final int textHeight = graphics.getFontMetrics().getAscent() - graphics.getFontMetrics().getDescent();
+                final int width = (int) client.getRealDimensions().getWidth();
+                java.awt.Point jPoint = new java.awt.Point((width / 2) - textWidth, textHeight + 75);
+                panelComponent.getChildren().clear();
+                panelComponent.getChildren().add(TitleComponent.builder().text(text).color(Color.RED).build());
+                panelComponent.setPreferredLocation(jPoint);
+                return panelComponent.render(graphics);
             }
         }
         return null;

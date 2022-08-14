@@ -15,6 +15,8 @@ import net.runelite.client.ui.overlay.OverlayManager;
 )
 
 public class MagicSecateursPlugin extends Plugin {
+
+    static final int MAX_FONT_SIZE = 100;
     @Inject
     private MagicSecateursOverlay overlay;
 
@@ -22,8 +24,7 @@ public class MagicSecateursPlugin extends Plugin {
     private OverlayManager overlayManager;
 
     @Provides
-    MagicSecateursConfig provideConfig(ConfigManager configManager)
-    {
+    MagicSecateursConfig provideConfig(ConfigManager configManager) {
         return configManager.getConfig(MagicSecateursConfig.class);
     }
 
